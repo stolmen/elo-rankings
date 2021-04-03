@@ -19,8 +19,7 @@ const apiService = api.getApiService(dbService, lightsService);
 const applicationService = app.getAppService(apiService);  // express.js service
 if (config.slackApiToken) {
 	const slackbotService = slackBot.getSlackService(apiService, config.slackApiToken, config.slackChannel);
-	slackbotService.start();
-	slackBot().catch(console.error);
+	slackbotService.start().catch(console.error);
 }
 
 // -------------------
