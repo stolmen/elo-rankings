@@ -1,3 +1,6 @@
+// full system test.
+// todo: fix these
+
 const mongodb = require('mongodb')
 const api = require('../src/api')
 const getDb = require('../src/get-db')

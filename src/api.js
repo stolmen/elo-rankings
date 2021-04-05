@@ -1,4 +1,4 @@
-const ajv = require('ajv')()
+const ajv = require('ajv')() // todo: trash this and use typescript instead?
 const elo = require('./elo')
 
 function getAverageElo(docs) {
@@ -75,9 +75,13 @@ function getapi(dbService, lightService) {
 			const gameResult = await api.resolveGameNvN({
 				winners: [query.winner],
 				losers: [query.loser],
-			})
+			});
 
-			lightService.setColor(gameResult.probability >= 0.5 ? 'red' : 'green');
+			if (gameResult.probability >= 0.5) {
+				lightService.setGreen();
+			} else {
+				lightService.setRed();
+			}
 
 			return {
 				message: gameResult.message,

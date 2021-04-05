@@ -1,27 +1,22 @@
-const http = require('http');
+const querystring = require('querystring');
 
-function getLightsService() {
+function getLightsService(httpService, baseUrl) {
 	return {
-		setColor: function (color) {
-		    let red = 0;
-		    let green = 0;
-		    if (color === 'red') {
-                red = 255;
-            } else if (color === 'green') {
-                green = 255;
-            } else {
-		        throw `color ${color} not supported, sorry.`;
-            }
-
-		    // todo pass hostname in as an input to service constructor
-			const lightUrl = 'http://carlpi:5000/color?red=' + red + '&blue=0&green=' + green;
-			makeSafeHttpCall(lightUrl);
+		setGreen: function () {
+			return this.setLightColor(0, 0, 255);
+		},
+		setRed: function () {
+			return this.setLightColor(255, 0, 0);
+		},
+		setBlue: function () {
+			return this.setLightColor(0, 255, 0);
+		},
+		setLightColor: function (red, blue, green) {
+			const paramz = querystring.stringify({red, blue, green});
+			const lightUrl = `${baseUrl}/color/${paramz}/`;
+		    httpService.get(lightUrl);
 		},
 	};
-}
-
-function makeSafeHttpCall(url) {
-	http.get(url, () => undefined).on('error', console.log);
 }
 
 module.exports = { getLightsService };

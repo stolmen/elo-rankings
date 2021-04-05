@@ -7,13 +7,15 @@ const db = require('./database');
 const api = require('./api');
 const lights = require('./lights');
 const slackBot = require('./slack-bot');
+const http = require('./http');
 
 const port = process.env.PORT || 3005;
 
 // ----- compose app dependencies
 // -- pleb services
 const dbService = db.getDbService();
-const lightsService = lights.getLightsService();
+const httpService = http.getHttpService();
+const lightsService = lights.getLightsService(httpService, 'http://carlpi:5000');
 const apiService = api.getApiService(dbService, lightsService);
 // -- top level services
 const applicationService = app.getAppService(apiService);  // express.js service
